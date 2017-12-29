@@ -15,6 +15,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -30,11 +32,18 @@ public class DatabaseReaderTask extends AsyncTask<DBNecessaryData, Void, Boolean
 
     private ArrayList<LatLng> markers;
     private LatLng belgrade;
+
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();/*
+    private DatabaseReference childLat = database.getReference("latitude");
+    private DatabaseReference childLong = database.getReference("longitude");*/
+    private DatabaseReference myRef = database.getReference("message");
+
+    private LatLng latitude, longitude;
+
     private Context context;
-    private MediaPlayer mp;
-    public DatabaseReaderTask(Context context, MediaPlayer mp){
+
+    public DatabaseReaderTask(Context context){
         this.context = context;
-        this.mp = mp;
     }
 
     private boolean isPointInPolygon(LatLng tap, ArrayList<LatLng> vertices) {

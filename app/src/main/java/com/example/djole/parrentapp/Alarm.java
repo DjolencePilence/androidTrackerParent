@@ -16,10 +16,9 @@ public class Alarm extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Toast.makeText(context,"Wake up",Toast.LENGTH_LONG).show();
-        MediaPlayer mp = MediaPlayer.create(context, Settings.System.DEFAULT_RINGTONE_URI);
         try {
-            mp.setLooping(true);
-            mp.start();
+            MapsActivity.mp.setLooping(true);
+            MapsActivity.mp.start();
 
         } catch (Exception e) {
             e.printStackTrace();

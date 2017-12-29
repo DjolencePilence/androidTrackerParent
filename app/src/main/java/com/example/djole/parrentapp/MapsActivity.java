@@ -58,7 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         context = this;
-        MediaPlayer.create(context, Settings.System.DEFAULT_RINGTONE_URI);
+        mp = MediaPlayer.create(context, Settings.System.DEFAULT_RINGTONE_URI);
         markerPoints = new ArrayList<>();
         llList = new ArrayList<>();
         markersSet = new HashSet<>();
@@ -70,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     buttonPressed = true;
                     if (isPointInPolygon(belgrade, markerPoints)) {
                         drawPolygon();
-                        new DatabaseReaderTask(context, mp).execute(new DBNecessaryData(belgrade, llList));
+                        new DatabaseReaderTask(context).execute(new DBNecessaryData(belgrade, llList));
                     }
                 }
 
@@ -87,8 +87,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buttonStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mp != null)
-                    mp.stop();
+                if (mp != null) {
+                    if(mp.isPlaying()) {
+                        mp.stop();
+                        try {
+                            mp.prepare();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         });
     }
