@@ -6,14 +6,19 @@
     android:padding="16dp"
 
     >
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:text="Unesite lokaciju"
+        android:id="@+id/txtLocation"
+        android:text="Enter the location"
         android:textAlignment="center"
         android:layout_gravity="center_horizontal"
+        android:layout_weight="2"
         />
 
     <Button
@@ -21,15 +26,81 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Trazi" />
+        android:text="Search" />
+</LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtRadius"
+        android:text="Enter the radius"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="2"
+        />
+    <Button
+        android:id="@+id/buttonDraw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Draw" />
+    <Button
+        android:id="@+id/buttonClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Clear" />
+
+</LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Track a child: "
+        android:gravity="bottom"
+        android:layout_marginTop="14dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16dp"/>
+
+    <Switch
+        android:id="@+id/switchTrackAChild"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:thumbTint="@color/colorPrimary"
+        android:trackTint="@color/colorPrimary"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set alarm: "
+        android:layout_marginTop="14dp"
+        android:gravity="bottom"
+
+        android:textColor="@color/colorAccent"
+        android:textSize="16dp"/>
+    <Switch
+        android:id="@+id/switchOnOff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center"/>
     <Button
         android:id="@+id/buttonStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Button" />
+        android:text="Stop" />
 
+</LinearLayout>
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -37,7 +108,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
 
         android:layout_width="match_parent"
-        android:layout_height="368dp"
+        android:layout_height="450dp"
         tools:context="com.example.djole.parrentapp.MapsActivity" />
 
 

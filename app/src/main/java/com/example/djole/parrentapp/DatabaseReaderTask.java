@@ -15,8 +15,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -33,17 +36,49 @@ public class DatabaseReaderTask extends AsyncTask<DBNecessaryData, Void, Boolean
     private ArrayList<LatLng> markers;
     private LatLng belgrade;
 
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();/*
-    private DatabaseReference childLat = database.getReference("latitude");
-    private DatabaseReference childLong = database.getReference("longitude");*/
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference childLat;
+    private DatabaseReference childLong;
     private DatabaseReference myRef = database.getReference("message");
+
+    private String latlngString, latitudeString, longitudeString;
+
 
     private LatLng latitude, longitude;
 
     private Context context;
 
     public DatabaseReaderTask(Context context){
-        this.context = context;
+        this.context = context;/*
+        childLat = database.getReference("https://locationproj-a0a94.firebaseio.com/latitude");
+        childLat.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snap) {
+                latitudeString  = snap.getValue(String.class);
+            }
+            @Override public void onCancelled(DatabaseError de) { return; }
+        });
+        childLong = database.getReference("https://locationproj-a0a94.firebaseio.com/longitude");
+        childLong.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snap) {
+                longitudeString  = snap.getValue(String.class);
+            }
+            @Override public void onCancelled(DatabaseError de) { return; }
+        });*/
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snap) {
+                latlngString  = snap.getValue(String.class);
+                int index = latlngString.indexOf('-');
+                if(index == 1 ) System.out.println("negativan je");
+                latitudeString = latlngString.substring(0, index);
+                longitudeString = latlngString.substring(index+1, latlngString.length());
+                System.out.println(latitudeString +" " + longitudeString);
+                belgrade = new LatLng(Double.parseDouble(latitudeString), Double.parseDouble(longitudeString));
+            }
+            @Override public void onCancelled(DatabaseError de) { return; }
+        });
     }
 
     private boolean isPointInPolygon(LatLng tap, ArrayList<LatLng> vertices) {
@@ -81,16 +116,20 @@ public class DatabaseReaderTask extends AsyncTask<DBNecessaryData, Void, Boolean
 
     @Override
     protected Boolean doInBackground(DBNecessaryData... dbNecessaryData) {
-       /* markers = dbNecessaryData[0].markers;
+        markers = dbNecessaryData[0].markers;
         belgrade = dbNecessaryData[0].belgrade;
         for(int j =0; j<1000;j++){
+            try {
+                belgrade = new LatLng(Double.parseDouble(latitudeString), Double.parseDouble(longitudeString));
+            }
+            catch (Exception e){ System.out.println("Greska u konverziji)");}
             if (isPointInPolygon(belgrade, markers))
                 for (int i = 0; i <markers.size(); i++) {
                     if (markers.get(i).equals(belgrade)) {
                         try {
-                            Thread.sleep(5000);
+                            //Thread.sleep(5000);
                             return false;
-                        } catch (InterruptedException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -100,7 +139,7 @@ public class DatabaseReaderTask extends AsyncTask<DBNecessaryData, Void, Boolean
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }*/
+        }
        return true;
     }
 

@@ -15,7 +15,7 @@ import android.widget.Toast;
 public class Alarm extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context,"Wake up",Toast.LENGTH_LONG).show();
+        Toast.makeText(context,"Your child has left the marked area",Toast.LENGTH_LONG).show();
         try {
             MapsActivity.mp.setLooping(true);
             MapsActivity.mp.start();
